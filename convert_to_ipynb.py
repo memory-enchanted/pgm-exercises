@@ -57,10 +57,6 @@ def py_to_ipynb(py_path, ipynb_path):
         if not section:
             continue
 
-        # 跳过 if __name__ 块
-        if re.search(r'if\s+__name__\s*==', section):
-            continue
-
         # 分离标题注释和代码
         # 标题格式: "# =====\n# 标题文本\n# =====\n"
         header_match = re.match(r'(# =+\n# .*?\n# =+\n)', section, re.DOTALL)
@@ -82,6 +78,11 @@ def py_to_ipynb(py_path, ipynb_path):
                 })
         else:
             code_part = section
+
+        # 切掉末尾的 if __name__ == '__main__' 块（只保留练习代码）
+        main_match = re.search(r'\n(?:# =+\n# .*?\n# =+\n)?\s*if\s+__name__\s*==', code_part)
+        if main_match:
+            code_part = code_part[:main_match.start()].strip()
 
         if not code_part:
             continue
@@ -132,5 +133,13 @@ def _write_notebook(ipynb_path, cells):
 
 
 if __name__ == '__main__':
-    py_to_ipynb('pgm_exercises/01_d_separation.py', 'pgm_exercises/01_d_separation.ipynb')
-    py_to_ipynb('pgm_exercises/02_markov_properties.py', 'pgm_exercises/02_markov_properties.ipynb')
+    import sys
+    if len(sys.argv) > 1:
+        # 用法: python convert_to_ipynb.py pgm_exercises/06_ve_exercises.py
+        for py_file in sys.argv[1:]:
+            ipynb_file = py_file.rsplit('.', 1)[0] + '.ipynb'
+            py_to_ipynb(py_file, ipynb_file)
+    else:
+        py_to_ipynb('pgm_exercises/01_d_separation.py', 'pgm_exercises/01_d_separation.ipynb')
+        py_to_ipynb('pgm_exercises/02_markov_properties.py', 'pgm_exercises/02_markov_properties.ipynb')
+        py_to_ipynb('pgm_exercises/06_ve_exercises.py', 'pgm_exercises/06_ve_exercises.ipynb')
