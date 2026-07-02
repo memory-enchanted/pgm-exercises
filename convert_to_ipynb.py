@@ -143,5 +143,5 @@ if __name__ == '__main__':
         py_to_ipynb('pgm_exercises/01_d_separation.py', 'pgm_exercises/01_d_separation.ipynb')
         py_to_ipynb('pgm_exercises/02_markov_properties.py', 'pgm_exercises/02_markov_properties.ipynb')
         py_to_ipynb('pgm_exercises/06_ve_exercises.py', 'pgm_exercises/06_ve_exercises.ipynb')
-        py_to_ipynb('pgm_exercises/09_bp_exercises.py', 'pgm_exercises/09_bp_exercises.ipynb')
+        py_to_ipynb('pgm_exercises/09_pe_exercises.py', 'pgm_exercises/09_pe_exercises.ipynb')
         py_to_ipynb('pgm_exercises/12_hmm_crf_exercises.py', 'pgm_exercises/12_hmm_crf_exercises.ipynb')

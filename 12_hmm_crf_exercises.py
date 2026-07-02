@@ -360,7 +360,7 @@ def exercise4_forward_backward_as_bp():
     alpha = np.zeros((T, K))
     alpha[0] = pi * B[obs[0]]
 
-    print("\n  ── Forward α 消息 (L5: 从左→右的 BP 消息) ──")
+    print("\n  ── Forward α 消息 (Sum-Product BP: 从左→右的消息) ──")
     print(f"  α₁ = π × B(X₁) = {np.round(alpha[0], 4)}")
     for t in range(1, T):
         for j in range(K):
@@ -371,7 +371,7 @@ def exercise4_forward_backward_as_bp():
     beta = np.zeros((T, K))
     beta[T-1] = 1.0
 
-    print(f"\n  ── Backward β 消息 (L5: 从右→左的 BP 消息) ──")
+    print(f"\n  ── Backward β 消息 (Sum-Product BP: 从右→左的消息) ──")
     print(f"  β_T = [1, 1, 1]  (叶子无信息)")
     for t in range(T-2, -1, -1):
         for i in range(K):
@@ -387,8 +387,8 @@ def exercise4_forward_backward_as_bp():
         print(f"  γ_{t+1}(Z) = α_{t+1} ⊙ β_{t+1} = {np.round(gamma[t], 4)}")
         print(f"    归一化: P(Z_{t+1}|X) = {np.round(gamma_norm[t], 4)}")
 
-    # Step 4: L5 BP 视角
-    print(f"\n  ── L5 Sum-Product BP 视角 ──")
+    # Step 4: Sum-Product BP 视角
+    print(f"\n  ── Sum-Product BP 视角 ──")
     print("""
     在 HMM 链 Z₁—Z₂—Z₃—Z₄ 上:
       (X₁,X₂,X₃,X₄ 为观测, 已嵌入边因子)
@@ -434,7 +434,7 @@ def exercise4_forward_backward_as_bp():
     print(f"  匹配: {'✅ 完全一致' if np.allclose(gamma_norm[0], exact_gamma1, atol=1e-6) else '❌ 不匹配'}")
 
     print("\n  🎯 洞察:")
-    print("    L5 的 Sum-Product BP = 树状图上的通用消息传递算法")
+    print("    Sum-Product BP = 树状图上的通用消息传递算法")
     print("    L6 的 Forward-Backward = 链状图上的 Sum-Product BP 特例")
     print("    α 和 β 不过是链上两个方向的消息 — 没有新算法, 只有新名字!")
 

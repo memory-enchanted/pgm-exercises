@@ -4,7 +4,7 @@
 
 - **表示 (Representation)** — L1-L3：图模型如何编码联合分布
 - **精确推理：变量消除 (VE)** — L4：一次回答一个查询
-- **精确推理：信念传播 (BP)** — L5：一次计算，回答所有查询
+- **参数估计 (Parameter Estimation)** — L5：MLE、GLM、EM、K-Means
 - **序列模型：HMM & CRF** — L6：Forward-Backward / Viterbi 算法的 VE/BP 视角
 - **近似推断：变分推断 I (VI)** — L7：Mean-Field & CAVI
 - **近似推断：变分推断 II (VI)** — L8：SVI, BBVI, Wake-Sleep, VAE
@@ -27,9 +27,9 @@
 | `05_L4_concept_review.md` | L4 变量消除概念体系梳理 | L4 |
 | `06_ve_exercises.ipynb` / `.py` | 变量消除算法 5 步代码练习 | L4 |
 | `07_ve_practice_problems.md` | L4 课后练习题（附答案） | L4 |
-| `08_L5_concept_review.md` | L5 信念传播概念体系梳理 | L5 |
-| `09_bp_exercises.ipynb` / `.py` | 信念传播算法 5 步代码练习 | L5 |
-| `10_bp_practice_problem.md` | L5 课后练习题（附答案） | L5 |
+| `08_L5_concept_review.md` | L5 参数估计概念体系梳理 | L5 |
+| `09_pe_exercises.ipynb` / `.py` | 参数估计 5 步代码练习 (MLE/IRLS/K-Means/EM) | L5 |
+| `10_pe_practice_problems.md` | L5 课后练习题（附答案） | L5 |
 | `11_L6_concept_review.md` | L6 HMM & CRF 概念体系梳理 | L6 |
 | `12_hmm_crf_exercises.ipynb` / `.py` | HMM & CRF 5 步代码练习 | L6 |
 | `13_hmm_crf_practice_problem.md` | L6 课后练习题（附答案） | L6 |
@@ -61,7 +61,7 @@ pip install -r requirements.txt
 
 ```bash
 conda install -c anaconda pgmpy
-pip install networkx matplotlib numpy pandas scipy
+pip install networkx matplotlib numpy pandas scipy scikit-learn
 ```
 
 ### 运行方式
@@ -79,9 +79,9 @@ python 02_markov_properties.py
 python 06_ve_exercises.py              # 全部练习
 python 06_ve_exercises.py --ex 1       # 指定练习 (1-5)
 
-# L5: 信念传播
-python 09_bp_exercises.py
-python 09_bp_exercises.py --ex 1
+# L5: 参数估计
+python 09_pe_exercises.py
+python 09_pe_exercises.py --ex 1
 
 # L6: HMM & CRF
 python 12_hmm_crf_exercises.py
@@ -136,15 +136,15 @@ python convert_to_ipynb.py
           ▼
 07_ve_practice_problems.md   ← 手算因子乘积与消元顺序
 
-模块三：精确推理 — 信念传播 (L5)
-─────────────────────────────────
-08_L5_concept_review.md      ← VE 的局限性 → BP 的动机
+模块三：参数估计 (L5)
+────────────────────────
+08_L5_concept_review.md      ← MLE → 指数族 → GLM → EM 的主线
           │
           ▼
-09_bp_exercises.ipynb        ← 5 个练习：消息传递 → Loopy BP → MAP
+09_pe_exercises.ipynb        ← 5 个练习：MLE → IRLS → K-Means → EM → 对比
           │
           ▼
-10_bp_practice_problem.md    ← 课后练习 + 答案自测
+10_pe_practice_problems.md   ← 课后练习 + 答案自测
 
 模块四：序列模型 — HMM & CRF (L6)
 ─────────────────────────────────
@@ -225,23 +225,24 @@ python convert_to_ipynb.py
 - 🟡 进阶：消元顺序对比、诱导图宽度分析
 - 🔴 挑战：最小填充推理
 
-### 模块三：精确推理 — 信念传播 (L5)
+### 模块三：参数估计 (L5)
 
 **08 — L5 概念体系梳理**
-- VE → BP 的演进：从"按顺序消变量"到"在图上发消息"
-- 团树 (Clique Tree)、消息传播、和积 vs 最大积算法、Loopy BP 与收敛性讨论
+- MLE → 指数族 → GLM → EM 的主线
+- 多元高斯 MLE、IRLS 迭代加权最小二乘
+- K-Means = EM 的特例 (硬分配 + 球形协方差的极限)
 
-**09 — 信念传播代码练习（5 个练习）**
-1. 手写消息传递 — 链式图上逐步追踪消息计算
-2. 树状图 BP — 收集 + 分发两阶段，验证边际正确
-3. VE vs BP 效率对比 — 多查询场景下 BP 的优势
-4. Loopy BP — 在有环图上运行 BP，观察收敛行为
-5. Max-Product MAP 推断 — 从边际到最可能赋值
+**09 — 参数估计代码练习（5 个练习）**
+1. MLE 手算 — 一元 & 多元高斯，验证充分统计量
+2. IRLS — 迭代重加权最小二乘拟合逻辑回归
+3. K-Means — 手写硬聚类，追踪损失下降
+4. EM for GMM — 高斯混合模型，E步(软分配) + M步(加权MLE)
+5. K-Means vs EM — 硬分配 vs 软分配，理解 K-Means 的隐含假设
 
 **10 — L5 课后练习**
-- 🟢 基础：消息手算、链式图 BP 全过程
-- 🟡 进阶：团树构造、多查询效率分析
-- 🔴 挑战：Loopy BP 收敛性分析
+- 🟢 基础：Bernoulli/Gaussian MLE、GLM 组件识别、EM 性质
+- 🟡 进阶：IRLS 权重分析、EM 的 ELBO 推导、GMM 完整推导
+- 🔴 挑战：截断高斯 EM、IRLS vs 梯度下降对比
 
 ### 模块四：序列模型 — HMM & CRF (L6)
 
@@ -254,7 +255,7 @@ python convert_to_ipynb.py
 1. Forward 算法手写 — 逐步追踪 α 消息（纯 numpy）
 2. Viterbi 算法 — MAP 解码 + 回溯，对比边际解码
 3. HMM 作为 BayesianNetwork — 用 pgmpy VE/BP 做滤波、平滑、MAP 解码
-4. Forward-Backward = Sum-Product BP — 连接 L5：α 和 β 就是链上的 BP 消息
+4. Forward-Backward = Sum-Product BP — α 和 β 就是链上的 BP 消息
 5. CRF 势函数 — 演示 Label Bias，对比局部 vs 全局归一化
 
 **13 — L6 课后练习**

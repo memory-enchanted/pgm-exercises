@@ -9,13 +9,13 @@
 ## 📐 全局定位：L4-L5 → L6 案例研究
 
 ```
-L4: 变量消除 (VE)           L5: 信念传播 (BP)           L6: HMM & CRF
+L4: 变量消除 (VE)           Sum-Product BP            L6: HMM & CRF
 ─────────────────────     ─────────────────────     ─────────────────────
-通用精确推断算法            通用精确推断算法            特定结构化模型
+通用精确推断算法            通用消息传递算法            特定结构化模型
 适用于任意 DAG/树           适用于任意树状图             链状/序列结构
 Σ 消元 → 单次查询           消息传递 → 所有边际         Forward/Viterbi = BP特例
                            
-L6 = 把 L4-L5 的算法应用到最重要的两个序列模型上
+L6 = 把精确推断算法应用到最重要的两个序列模型上
     Forward = VE in left-to-right order
     Viterbi = Max-Product on chain
     Forward-Backward = Sum-Product BP on chain ✨
@@ -168,7 +168,7 @@ Forward 算法可以计算 P(X)，但如果我们想知道 P(Z_t | X) (平滑/sm
 └──────────────────────────────────────────────────────────────┘
 ```
 
-### 用 L5 BP 的语言重新解释
+### 用 Sum-Product BP 的语言重新解释
 
 Backward 消息 β_t 就是 BP 中从 **右侧 (未来) 向左侧 (过去)** 传递的消息！
 
@@ -214,12 +214,12 @@ BP 消息:
 P(Z_t | X) ∝ α_t(Z_t) × β_t(Z_t)
         = "入边消息乘积"
 
-完全对应 L5 中的: P(Xᵢ) ∝ ∏_{k∈N(i)} m_{k→i}(Xᵢ)
+完全对应 Sum-Product BP 中的: P(Xᵢ) ∝ ∏_{k∈N(i)} m_{k→i}(Xᵢ)
 ```
 
 ### 完整对应表
 
-| L5 BP 概念 | HMM Forward-Backward |
+| Sum-Product BP 概念 | HMM Forward-Backward |
 |-----------|---------------------|
 | 收集阶段 (叶子→根) | Forward pass (左→右) |
 | 分发阶段 (根→叶子) | Backward pass (右→左) |
@@ -418,7 +418,7 @@ CRF 中, 只有 Z(X) = Σ_Z ∏ ψ 这一个全局归一化常数。
 ## 🔗 概念关系图
 
 ```
-                L4: VE              L5: BP
+                L4: VE              Sum-Product BP
                   │                   │
           Σ 消元 / max 消元    Sum-Product / Max-Product
                   │                   │
