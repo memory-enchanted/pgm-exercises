@@ -1,6 +1,6 @@
 # CMU 10-708 概率图模型 (PGM) 课后练习
 
-基于 **CMU 10-708 Probabilistic Graphical Models**（Eric Xing 教授）L1-L9 课程的练习集，覆盖七大模块：
+基于 **CMU 10-708 Probabilistic Graphical Models**（Eric Xing 教授）L1-L11 课程的练习集，覆盖九大模块：
 
 - **表示 (Representation)** — L1-L3：图模型如何编码联合分布
 - **精确推理：变量消除 (VE)** — L4：一次回答一个查询
@@ -9,6 +9,8 @@
 - **近似推断：变分推断 I (VI)** — L7：Mean-Field & CAVI
 - **近似推断：变分推断 II (VI)** — L8：SVI, BBVI, Wake-Sleep, VAE
 - **近似推断：蒙特卡洛 (MCMC)** — L9：Rejection, Importance, MH, Gibbs
+- **进阶 MCMC** — L10：HMC, Slice Sampling, Parallel Tempering, AIS
+- **深度学习基础** — L11：梯度下降、反向传播、偏差-方差、正则化
 
 > 配套视频：[BV1tX4y1371G](https://www.bilibili.com/video/BV1tX4y1371G/)
 >
@@ -42,6 +44,12 @@
 | `20_L9_concept_review.md` | L9 蒙特卡洛方法概念体系梳理 | L9 |
 | `21_mc_exercises.ipynb` / `.py` | 蒙特卡洛方法 5 步代码练习 | L9 |
 | `22_mc_practice_problems.md` | L9 课后练习题（附答案） | L9 |
+| `23_L10_concept_review.md` | L10 进阶 MCMC 概念体系梳理 | L10 |
+| `24_advanced_mcmc_exercises.ipynb` / `.py` | 进阶 MCMC 5 步代码练习 | L10 |
+| `25_advanced_mcmc_practice_problems.md` | L10 课后练习题（附答案） | L10 |
+| `26_L11_concept_review.md` | L11 深度学习基础概念体系梳理 | L11 |
+| `27_dl_foundations_exercises.ipynb` / `.py` | 深度学习基础 5 步代码练习 | L11 |
+| `28_dl_foundations_practice_problems.md` | L11 课后练习题（附答案） | L11 |
 | `convert_to_ipynb.py` | `.py` → `.ipynb` 转换工具 | — |
 | `requirements.txt` | Python 依赖清单 | — |
 
@@ -98,6 +106,14 @@ python 18_vi2_exercises.py --ex 1
 # L9: 蒙特卡洛方法
 python 21_mc_exercises.py
 python 21_mc_exercises.py --ex 1
+
+# L10: 进阶 MCMC
+python 24_advanced_mcmc_exercises.py
+python 24_advanced_mcmc_exercises.py --ex 1
+
+# L11: 深度学习基础
+python 27_dl_foundations_exercises.py
+python 27_dl_foundations_exercises.py --ex 1
 ```
 
 ### 转换工具
@@ -185,6 +201,26 @@ python convert_to_ipynb.py
           │
           ▼
 22_mc_practice_problems.md   ← 课后练习 + 答案自测
+
+模块八：进阶 MCMC (L10)
+─────────────────────────
+23_L10_concept_review.md     ← 基础 MCMC 的局限 → 进阶方法的动机
+          │
+          ▼
+24_advanced_mcmc_exercises.ipynb ← 5 个练习: Slice → HMC → Tempering → AIS → 诊断
+          │
+          ▼
+25_advanced_mcmc_practice_problems.md ← 课后练习 + 答案自测
+
+模块九：深度学习基础 (L11)
+───────────────────────────
+26_L11_concept_review.md     ← PGM → DL 的桥梁：MLE, 梯度, 正则化
+          │
+          ▼
+27_dl_foundations_exercises.ipynb ← 5 个练习: SGD → 反向传播 → Bias-Var → 正则化 → MLP
+          │
+          ▼
+28_dl_foundations_practice_problems.md ← 课后练习 + 答案自测
 ```
 
 ---
@@ -319,6 +355,47 @@ python convert_to_ipynb.py
 - 🟢 基础：Rejection Sampling 接受率、Importance Weight 归一化
 - 🟡 进阶：MH proposal 对比、Gibbs 条件分布推导
 - 🔴 挑战：MCMC 收敛诊断（R-hat）、Hamiltonian Monte Carlo 原理
+
+### 模块八：进阶 MCMC (L10)
+
+**23 — L10 概念体系梳理**
+- 基础 MCMC → 进阶 MCMC 的演进：RW-MH 在高维、强相关、多峰分布中效率极差
+- HMC（哈密尔顿蒙特卡洛）：梯度引导的高效采样
+- Slice Sampling：免 proposal 的自适应采样
+- Parallel Tempering：多温度链克服多峰分布
+- AIS（退火重要性采样）：估计 partition function
+
+**24 — 进阶 MCMC 代码练习（5 个练习）**
+1. Slice Sampling — 免 proposal 的自适应采样，100% 接受率
+2. Hamiltonian Monte Carlo — 梯度引导的高效采样，对比 RW-MH
+3. Parallel Tempering — 多温度链克服多峰分布
+4. Annealed Importance Sampling — 估计 partition function
+5. MCMC 收敛诊断 — R-hat, ESS, trace plot, MCSE
+
+**25 — L10 课后练习**
+- 🟢 基础：HMC Hamiltonian 构造、Slice 原理
+- 🟡 进阶：HMC vs RW-MH 效率分析、Parallel Tempering 温度选择
+- 🔴 挑战：NUTS 原理、AIS 权重推导
+
+### 模块九：深度学习基础 (L11)
+
+**26 — L11 概念体系梳理**
+- PGM → DL 的桥梁：深度学习 = 用梯度下降在大规模神经网络上做 MLE/MAP
+- 反向传播、SGD 及其变体（Momentum、Adam）
+- 偏差-方差分解、正则化（L2、Dropout）
+- PGM 的统计概念在 DL 中无处不在
+
+**27 — 深度学习基础代码练习（5 个练习）**
+1. 梯度下降变体 — SGD, Momentum, Adam 在 2D 损失面上的对比
+2. 反向传播手写 — 2 层 MLP 的完整前向 + 反向，验证数值梯度
+3. 偏差-方差分解 — 多项式回归，展示 Bias² + Var + Noise
+4. 正则化 — L2, Dropout 抑制过拟合的效果对比
+5. 神经网络从零 — 2 层 MLP 训练，决策边界可视化
+
+**28 — L11 课后练习**
+- 🟢 基础：损失函数的统计对应（MSE ↔ Gaussian, CE ↔ Categorical）
+- 🟡 进阶：反向传播手动推导、偏差-方差权衡分析
+- 🔴 挑战：Adam 的偏差修正、Dropout 的集成解释
 
 ---
 
