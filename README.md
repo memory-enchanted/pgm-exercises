@@ -1,6 +1,6 @@
 # CMU 10-708 概率图模型 (PGM) 课后练习
 
-基于 **CMU 10-708 Probabilistic Graphical Models**（Eric Xing 教授）L1-L11 课程的练习集，覆盖九大模块：
+基于 **CMU 10-708 Probabilistic Graphical Models**（Eric Xing 教授）L1-L14 课程的练习集，覆盖十二大模块：
 
 - **表示 (Representation)** — L1-L3：图模型如何编码联合分布
 - **精确推理：变量消除 (VE)** — L4：一次回答一个查询
@@ -11,6 +11,9 @@
 - **近似推断：蒙特卡洛 (MCMC)** — L9：Rejection, Importance, MH, Gibbs
 - **进阶 MCMC** — L10：HMC, Slice Sampling, Parallel Tempering, AIS
 - **深度学习基础** — L11：梯度下降、反向传播、偏差-方差、正则化
+- **深度生成模型 I (DGM I)** — L12：RBM、DBN、DBM、Contrastive Divergence
+- **深度生成模型 II (DGM II)** — L13：VAE、GAN、Normalizing Flow、Diffusion
+- **深度序列模型** — L14：CNN、RNN、LSTM/GRU、Attention、Transformer
 
 > 配套视频：[BV1tX4y1371G](https://www.bilibili.com/video/BV1tX4y1371G/)
 >
@@ -50,6 +53,15 @@
 | `26_L11_concept_review.md` | L11 深度学习基础概念体系梳理 | L11 |
 | `27_dl_foundations_exercises.ipynb` / `.py` | 深度学习基础 5 步代码练习 | L11 |
 | `28_dl_foundations_practice_problems.md` | L11 课后练习题（附答案） | L11 |
+| `29_L12_concept_review.md` | L12 深度生成模型 I 概念体系梳理 | L12 |
+| `30_dgm1_exercises.ipynb` / `.py` | 深度生成模型 I 5 步代码练习 (RBM/CD/DBN/Score Matching) | L12 |
+| `31_dgm1_practice_problems.md` | L12 课后练习题（附答案） | L12 |
+| `32_L13_concept_review.md` | L13 深度生成模型 II 概念体系梳理 | L13 |
+| `33_dgm2_exercises.ipynb` / `.py` | 深度生成模型 II 5 步代码练习 (VAE/GAN/Flow/Diffusion) | L13 |
+| `34_dgm2_practice_problems.md` | L13 课后练习题（附答案） | L13 |
+| `35_L14_concept_review.md` | L14 深度序列模型概念体系梳理 | L14 |
+| `36_sequence_models_exercises.ipynb` / `.py` | 深度序列模型 6 步代码练习 (CNN/RNN/LSTM/Attn/Transformer) | L14 |
+| `37_sequence_models_practice_problems.md` | L14 课后练习题（附答案） | L14 |
 | `convert_to_ipynb.py` | `.py` → `.ipynb` 转换工具 | — |
 | `requirements.txt` | Python 依赖清单 | — |
 
@@ -114,6 +126,18 @@ python 24_advanced_mcmc_exercises.py --ex 1
 # L11: 深度学习基础
 python 27_dl_foundations_exercises.py
 python 27_dl_foundations_exercises.py --ex 1
+
+# L12: 深度生成模型 I
+python 30_dgm1_exercises.py
+python 30_dgm1_exercises.py --ex 1
+
+# L13: 深度生成模型 II
+python 33_dgm2_exercises.py
+python 33_dgm2_exercises.py --ex 1
+
+# L14: 深度序列模型
+python 36_sequence_models_exercises.py
+python 36_sequence_models_exercises.py --ex 1
 ```
 
 ### 转换工具
@@ -221,6 +245,36 @@ python convert_to_ipynb.py
           │
           ▼
 28_dl_foundations_practice_problems.md ← 课后练习 + 答案自测
+
+模块十：深度生成模型 I (L12)
+─────────────────────────────
+29_L12_concept_review.md     ← RBM → DBN → DBM 的层次化生成路线
+          │
+          ▼
+30_dgm1_exercises.ipynb      ← 5 个练习: RBM → CD → 特征学习 → DBN → Score Matching
+          │
+          ▼
+31_dgm1_practice_problems.md ← 课后练习 + 答案自测
+
+模块十一：深度生成模型 II (L13)
+───────────────────────────────
+32_L13_concept_review.md     ← VAE, GAN, Flow, Diffusion 统一视角
+          │
+          ▼
+33_dgm2_exercises.ipynb      ← 5 个练习: VAE → GAN → Flow → AR → Diffusion
+          │
+          ▼
+34_dgm2_practice_problems.md ← 课后练习 + 答案自测
+
+模块十二：深度序列模型 (L14)
+─────────────────────────────
+35_L14_concept_review.md     ← CNN → RNN → LSTM → Attention → Transformer
+          │
+          ▼
+36_sequence_models_exercises.ipynb ← 6 个练习: 1D CNN → RNN → LSTM → Attn → Multi-Head → Transformer
+          │
+          ▼
+37_sequence_models_practice_problems.md ← 课后练习 + 答案自测
 ```
 
 ---
@@ -396,6 +450,66 @@ python convert_to_ipynb.py
 - 🟢 基础：损失函数的统计对应（MSE ↔ Gaussian, CE ↔ Categorical）
 - 🟡 进阶：反向传播手动推导、偏差-方差权衡分析
 - 🔴 挑战：Adam 的偏差修正、Dropout 的集成解释
+
+### 模块十：深度生成模型 I (L12)
+
+**29 — L12 概念体系梳理**
+- PGM + DL 融合的第一代成果：RBM → DBN → DBM
+- 能量函数、Block Gibbs Sampling、Contrastive Divergence
+- Greedy layer-wise pretraining 的动机与局限
+
+**30 — 深度生成模型 I 代码练习（5 个练习）**
+1. RBM 从零实现 — 能量函数、Block Gibbs、条件分布、生成样本
+2. Contrastive Divergence — CD-1 vs CD-5 vs CD-20，重构质量对比
+3. RBM 特征学习 — 16→8 RBM，可视化权重作为"特征检测器"
+4. 深度信念网络 — greedy layer-wise 逐层预训练，层次化表示
+5. Score Matching — 在简单 Gaussian 上对比 SM vs MLE
+
+**31 — L12 课后练习**
+- 🟢 基础：RBM 能量与条件分布、Gibbs 采样步骤
+- 🟡 进阶：CD-k 的梯度推导、DBN 逐层训练原理
+- 🔴 挑战：Score Matching 与 CD 的理论联系、DBM 的联合训练
+
+### 模块十一：深度生成模型 II (L13)
+
+**32 — L13 概念体系梳理**
+- 第二代深度生成模型的统一视角：不需要能量函数/partition function
+- VAE：ELBO + Reparameterization Trick
+- GAN：Minimax 博弈、最优判别器、JSD 解释
+- Normalizing Flow：可逆变换 + Change of Variables
+- Diffusion：前向加噪 + 反向去噪 = 随机微分方程
+
+**33 — 深度生成模型 II 代码练习（5 个练习）**
+1. VAE — 2D 隐空间插值与生成
+2. GAN — 对抗训练，1D 数据分布学习
+3. Normalizing Flow — RealNVP 风格可逆变换
+4. 自回归模型 — MADE 的 masked 连接
+5. 去噪扩散模型 — 简化的 1D DDPM
+
+**34 — L13 课后练习**
+- 🟢 基础：GAN minimax objective、最优 D 推导、VAE ELBO
+- 🟡 进阶：Flow 的 Jacobian 计算、Diffusion 的 noise schedule
+- 🔴 挑战：Wasserstein GAN、DDPM 的简化损失推导
+
+### 模块十二：深度序列模型 (L14)
+
+**35 — L14 概念体系梳理**
+- 序列建模的演进：CNN (局部感受野) → RNN (循环状态) → Attention (全局加权) → Transformer (纯注意力)
+- 长距离依赖和并行化两大核心难题的逐步解决
+- Self-Attention、Multi-Head Attention、Positional Encoding
+
+**36 — 深度序列模型代码练习（6 个练习）**
+1. 1D 因果卷积 — 时序预测
+2. Vanilla RNN 从零 — 字符级语言模型
+3. LSTM 从零 — 门控机制手写（遗忘门、输入门、输出门）
+4. Scaled Dot-Product Attention — 手算验证
+5. Multi-Head Self-Attention 实现
+6. Transformer Encoder Block — 组装完整编码器块
+
+**37 — L14 课后练习**
+- 🟢 基础：1D 卷积手算、RNN 隐藏状态更新
+- 🟡 进阶：LSTM 门控公式、Attention 权重计算
+- 🔴 挑战：Multi-Head 的维度分析、Positional Encoding 的设计空间
 
 ---
 

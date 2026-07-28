@@ -133,15 +133,21 @@ def _write_notebook(ipynb_path, cells):
 
 
 if __name__ == '__main__':
+    import glob
     import sys
+
     if len(sys.argv) > 1:
-        # 用法: python convert_to_ipynb.py pgm_exercises/06_ve_exercises.py
+        # 用法: python convert_to_ipynb.py 06_ve_exercises.py
         for py_file in sys.argv[1:]:
             ipynb_file = py_file.rsplit('.', 1)[0] + '.ipynb'
             py_to_ipynb(py_file, ipynb_file)
     else:
-        py_to_ipynb('pgm_exercises/01_d_separation.py', 'pgm_exercises/01_d_separation.ipynb')
-        py_to_ipynb('pgm_exercises/02_markov_properties.py', 'pgm_exercises/02_markov_properties.ipynb')
-        py_to_ipynb('pgm_exercises/06_ve_exercises.py', 'pgm_exercises/06_ve_exercises.ipynb')
-        py_to_ipynb('pgm_exercises/09_pe_exercises.py', 'pgm_exercises/09_pe_exercises.ipynb')
-        py_to_ipynb('pgm_exercises/12_hmm_crf_exercises.py', 'pgm_exercises/12_hmm_crf_exercises.ipynb')
+        # 自动转换所有 *_exercises.py 文件
+        exercise_files = sorted(glob.glob('*_exercises.py'))
+        if not exercise_files:
+            print("No *_exercises.py files found in current directory.")
+            sys.exit(1)
+        for py_file in exercise_files:
+            ipynb_file = py_file.rsplit('.', 1)[0] + '.ipynb'
+            py_to_ipynb(py_file, ipynb_file)
+        print(f"\nDone — converted {len(exercise_files)} files.")
