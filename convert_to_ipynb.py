@@ -79,10 +79,19 @@ def py_to_ipynb(py_path, ipynb_path):
         else:
             code_part = section
 
-        # 切掉末尾的 if __name__ == '__main__' 块（只保留练习代码）
-        main_match = re.search(r'\n(?:# =+\n# .*?\n# =+\n)?\s*if\s+__name__\s*==', code_part)
-        if main_match:
-            code_part = code_part[:main_match.start()].strip()
+        # ---- 切掉末尾的运行器代码 (只保留练习代码) ----
+        # 新版 .py (45_causality 起) 末尾常有 "# 主函数 / # 主程序" 章节:
+        #   def main() + argparse + 练习调度表 —— 整段丢弃。
+        #   (notebook 逐 cell 顺序执行已等价于运行全部练习, 无需 CLI 运行器)
+        runner_matches = list(re.finditer(
+            r'\n# =+\n#\s*(?:主函数|主程序).*?\n# =+\n', code_part))
+        if runner_matches:
+            code_part = code_part[:runner_matches[-1].start()].strip()
+        else:
+            # 旧式: 直接切掉末尾的 if __name__ == '__main__' 块
+            main_match = re.search(r'\n(?:# =+\n# .*?\n# =+\n)?\s*if\s+__name__\s*==', code_part)
+            if main_match:
+                code_part = code_part[:main_match.start()].strip()
 
         if not code_part:
             continue

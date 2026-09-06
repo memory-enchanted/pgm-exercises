@@ -1,6 +1,6 @@
 # CMU 10-708 概率图模型 (PGM) 课后练习
 
-基于 **CMU 10-708 Probabilistic Graphical Models**（Eric Xing 教授）L1-L14 课程的练习集，覆盖十二大模块：
+基于 **CMU 10-708 Probabilistic Graphical Models**（Eric Xing 教授）L1-L18 课程的练习集，覆盖十六大模块：
 
 - **表示 (Representation)** — L1-L3：图模型如何编码联合分布
 - **精确推理：变量消除 (VE)** — L4：一次回答一个查询
@@ -14,6 +14,10 @@
 - **深度生成模型 I (DGM I)** — L12：RBM、DBN、DBM、Contrastive Divergence
 - **深度生成模型 II (DGM II)** — L13：VAE、GAN、Normalizing Flow、Diffusion
 - **深度序列模型** — L14：CNN、RNN、LSTM/GRU、Attention、Transformer
+- **案例研究：文本生成 (Text Generation)** — L15：AR LM、Seq2Seq+Attention、VAE/GAN for Text、评估指标
+- **结构学习 (Structure Learning)** — L16：GGM、Graphical Lasso、Neighbor Selection、时变网络
+- **因果关系 I (Causality 1)** — L17：干预、识别、反事实推理、因果发现 (PC/LiNGAM)
+- **因果关系 II (Causality 2)** — L18：因果方向辨识、混杂、选择偏差、迁移与域泛化
 
 > 配套视频：[BV1tX4y1371G](https://www.bilibili.com/video/BV1tX4y1371G/)
 >
@@ -62,6 +66,18 @@
 | `35_L14_concept_review.md` | L14 深度序列模型概念体系梳理 | L14 |
 | `36_sequence_models_exercises.ipynb` / `.py` | 深度序列模型 6 步代码练习 (CNN/RNN/LSTM/Attn/Transformer) | L14 |
 | `37_sequence_models_practice_problems.md` | L14 课后练习题（附答案） | L14 |
+| `38_L15_concept_review.md` | L15 文本生成概念体系梳理 | L15 |
+| `39_text_generation_exercises.ipynb` / `.py` | 文本生成 6 步代码练习 (AR LM/解码/评估/Seq2Seq/VAE) | L15 |
+| `40_text_generation_practice_problems.md` | L15 课后练习题（附答案） | L15 |
+| `41_L16_concept_review.md` | L16 结构学习概念体系梳理 | L16 |
+| `42_structure_learning_exercises.ipynb` / `.py` | 结构学习 6 步代码练习 (GGM/GLasso/Neighbor/偏相关/时变) | L16 |
+| `43_structure_learning_practice_problems.md` | L16 课后练习题（附答案） | L16 |
+| `44_L17_concept_review.md` | L17 因果关系 I 概念体系梳理 | L17 |
+| `45_causality_exercises.ipynb` / `.py` | 因果关系 I 七步代码练习 (辛普森/do-算子/因果BN/后门前门/反事实/PC) | L17 |
+| `46_causality_practice_problems.md` | L17 课后练习题（附答案） | L17 |
+| `47_L18_concept_review.md` | L18 因果关系 II 概念体系梳理 | L18 |
+| `48_causality2_exercises.ipynb` / `.py` | 因果关系 II 九步代码练习 (ANM/混杂/选择偏差/Granger/域泛化) | L18 |
+| `49_causality2_practice_problems.md` | L18 课后练习题（附答案） | L18 |
 | `convert_to_ipynb.py` | `.py` → `.ipynb` 转换工具 | — |
 | `requirements.txt` | Python 依赖清单 | — |
 
@@ -138,6 +154,22 @@ python 33_dgm2_exercises.py --ex 1
 # L14: 深度序列模型
 python 36_sequence_models_exercises.py
 python 36_sequence_models_exercises.py --ex 1
+
+# L15: 案例研究 — 文本生成
+python 39_text_generation_exercises.py
+python 39_text_generation_exercises.py --ex 1
+
+# L16: 结构学习
+python 42_structure_learning_exercises.py
+python 42_structure_learning_exercises.py --ex 1
+
+# L17: 因果关系 1
+python 45_causality_exercises.py
+python 45_causality_exercises.py --ex 1
+
+# L18: 因果关系 2
+python 48_causality2_exercises.py
+python 48_causality2_exercises.py --ex 1
 ```
 
 ### 转换工具
@@ -275,6 +307,46 @@ python convert_to_ipynb.py
           │
           ▼
 37_sequence_models_practice_problems.md ← 课后练习 + 答案自测
+
+模块十三：案例研究 — 文本生成 (L15)
+────────────────────────────────────
+38_L15_concept_review.md      ← DGM × 序列模型 → 落地离散文本生成
+          │
+          ▼
+39_text_generation_exercises.ipynb ← 6 个练习: n-gram vs Neural LM → 解码策略 → PPL/BLEU → Seq2Seq → 文本VAE → HMM对比
+          │
+          ▼
+40_text_generation_practice_problems.md ← 课后练习 + 答案自测
+
+模块十四：结构学习 (L16)
+─────────────────────────
+41_L16_concept_review.md      ← 高斯图模型 → 结构未知时如何从数据学图
+          │
+          ▼
+42_structure_learning_exercises.ipynb ← 6 个练习: Σ vs Ω → GLasso → 逐节点 Lasso → 偏相关检验 → 时变GLasso → 三范式
+          │
+          ▼
+43_structure_learning_practice_problems.md ← 课后练习 + 答案自测
+
+模块十五：因果关系 1 (L17)
+──────────────────────────
+44_L17_concept_review.md      ← 关联 ≠ 因果: 干预 → 识别 → 反事实 → 因果发现
+          │
+          ▼
+45_causality_exercises.ipynb ← 7 个练习: 辛普森悖论 → do-算子 → 因果BN → 后门/前门 → 反事实 → PC → ML启示
+          │
+          ▼
+46_causality_practice_problems.md ← 课后练习 + 答案自测
+
+模块十六：因果关系 2 (L18)
+──────────────────────────
+47_L18_concept_review.md      ← 因果方向辨识 → 混杂/选择偏差 → 时间信息 → 迁移学习
+          │
+          ▼
+48_causality2_exercises.ipynb ← 9 个练习: 三层预测 → 推断框架 → PC/FCI → ANM → ICP → 混杂/IV → Berkson → Granger → 域泛化
+          │
+          ▼
+49_causality2_practice_problems.md ← 课后练习 + 答案自测
 ```
 
 ---
@@ -510,6 +582,93 @@ python convert_to_ipynb.py
 - 🟢 基础：1D 卷积手算、RNN 隐藏状态更新
 - 🟡 进阶：LSTM 门控公式、Attention 权重计算
 - 🔴 挑战：Multi-Head 的维度分析、Positional Encoding 的设计空间
+
+### 模块十三：案例研究 — 文本生成 (L15)
+
+**38 — L15 概念体系梳理**
+- L15 的定位：把 VAE / GAN / Diffusion / AR 的生成能力落地到离散文本 (DGM × 序列模型)
+- 自回归语言模型 (AR LM)、Seq2Seq + Attention、解码策略 (Greedy/Beam Search/Temperature/Top-k)
+- VAE for Text (后验崩塌)、GAN for Text、评估指标 (Perplexity / BLEU)
+
+**39 — 文本生成代码练习（6 个练习 + Bonus 全流程）**
+1. 自回归语言模型 — n-gram vs Neural LM 概率计算与生成
+2. 解码策略 — Greedy vs Beam Search vs Temperature vs Top-k/p
+3. Perplexity 与 BLEU — 从零实现
+4. Seq2Seq with Bahdanau Attention — 从零实现
+5. 文本 VAE — 隐空间插值与后验崩塌演示
+6. PGM 视角 — HMM 语言模型 vs 神经 LM 对比
+7. Bonus 综合测试 — Bigram LM 训练 → 解码 → 生成 → 评估全流程
+
+**40 — L15 课后练习**
+- 🟢 基础：自回归分解、Bigram LM 概率计算
+- 🟡 进阶：Beam Search 手算、Temperature 效果、PPL/BLEU 计算
+- 🔴 挑战：Bahdanau Attention 维度推导、文本 VAE 后验崩塌、SeqGAN 策略梯度
+
+### 模块十四：结构学习 (L16)
+
+**41 — L16 概念体系梳理**
+- 高斯图模型 (GGM)：精度矩阵的非零模式 = 条件独立结构
+- Graphical Lasso 估计稀疏精度矩阵；Neighbor Selection (逐节点 Lasso)
+- 时变马尔可夫网络 (时间平滑 + 断点检测)；其他结构学习方法一览
+
+**42 — 结构学习代码练习（6 个练习）**
+1. GGM — 精度矩阵 Ω vs 协方差 Σ，验证 Ω 非零模式即图结构
+2. Graphical Lasso — 坐标下降从零实现，正则化路径
+3. Neighbor Selection — 逐节点 Lasso，AND/OR 规则
+4. 偏相关系数与边检验 — 偏相关计算与显著性测试
+5. 时变 Graphical Lasso — 滑动窗口 + 时间平滑结构学习
+6. PGM 视角 — 约束 vs 分数 vs 正则化 三种范式对比
+
+**43 — L16 课后练习**
+- 🟢 基础：精度矩阵与条件独立、偏相关系数
+- 🟡 进阶：GLasso 目标函数、坐标下降一步手算、Neighbor Selection 回归等价性、AND/OR 规则
+- 🔴 挑战：时变 GLasso 核平滑、Fused Lasso 断点检测、高维一致性、从 GGM 到非高斯
+
+### 模块十五：因果关系 1 (L17)
+
+**44 — L17 概念体系梳理**
+- 关联 ≠ 因果：辛普森悖论、Pearl 因果层次 (关联 → 干预 → 反事实)
+- do-算子与图手术、因果贝叶斯网络 / SCM、d-Separation
+- 因果效应识别：后门/前门准则、do-Calculus；反事实推理 (溯因-行动-预测)
+- 因果发现：PC 算法、马尔可夫等价类、LiNGAM；对 ML 的启示 (OOD / 公平性)
+
+**45 — 因果关系 1 代码练习（7 个练习）**
+1. 辛普森悖论 — 关联 vs 因果，后门调整
+2. do-算子 图手术 — 截断因子分解
+3. 因果贝叶斯网络 — pgmpy 构建与 d-Separation
+4. 后门/前门准则 — 因果效应识别
+5. 反事实推理 — 溯因·行动·预测三步法
+6. PC 算法 — 从数据发现因果结构
+7. 因果对 ML 的启示 — OOD 泛化 & 反事实公平性
+
+**46 — L17 课后练习**
+- 🟢 基础：区分关联与因果、截断因子分解
+- 🟡 进阶：辛普森悖论手算、后门路径识别与调整、线性 SCM 反事实、PC 算法手算
+- 🔴 挑战：前门调整数值、do-Calculus 规则应用、归因概率 (PN / PS / PNS)
+
+### 模块十六：因果关系 2 (L18)
+
+**47 — L18 概念体系梳理**
+- 不假设已知因果图：Why Causality、因果推断框架总览
+- 因果方向辨识：噪声不对称性 (ANM)、P(cause) 与 P(effect|cause) 独立变化
+- 扭曲因果的因素：混杂 (工具变量)、选择偏差 (Berkson 悖论 / Collider 条件化)
+- 时间信息 (Granger) 与迁移学习：因果不变性、域泛化
+
+**48 — 因果关系 2 代码练习（9 个练习）**
+1. 关联 vs 因果 vs 反事实 — 三层预测对比
+2. 因果推断框架 — 从数据到 ATE 的完整流程
+3. 约束因果发现 — PC/FCI 与独立性检验
+4. ANM — 用残差独立性判断因果方向
+5. 多环境因果发现 — 不变因果预测 (ICP)
+6. 混杂检测 & 工具变量估计
+7. 选择偏差 — Berkson 悖论
+8. Granger 因果 & 时间序列因果发现
+9. 因果不变性与域泛化
+
+**49 — L18 课后练习**
+- 🟢 基础：因果思维的必要性、因果推断框架、迁移学习的紧凑变化
+- 🟡 进阶：FCI 与隐混杂检测、ANM 残差独立性手算、多环境因果不变性、Berkson 悖论数值、Granger vs 真实因果
+- 🔴 挑战：LiNGAM 非高斯性辨识、工具变量数学推导
 
 ---
 
